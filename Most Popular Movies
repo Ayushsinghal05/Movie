@@ -1,0 +1,30 @@
+#This is a function for getting a list of all popular movies and its vote averages
+def  list_of_popular_movies_by_vote_average(url, api_key, page_input, page_number, sorted_film_vote_average_list_per_page):
+  import json, requests
+  response = requests.get(url + api_key + page_input + page_number)
+  film_data = response.json()
+  film_and_vote_average_list = []
+  sorted_film_vote_average_list_per_page = []
+  for x in film_data['results']:
+    title_of_film = (x['title'])
+    film_vote_average_list = (x['vote_average'])
+    film_and_vote_average_list = [film_vote_average_list, title_of_film]
+    sorted_film_vote_average_list_per_page.append(film_and_vote_average_list)
+    sorted_film_vote_average_list_per_page.sort(reverse=True)
+  return (sorted_film_vote_average_list_per_page)
+
+##main program
+sorted_film_vote_average_list = []
+sorted_film_vote_average_list_per_page=[]
+list_2 = []
+for x in range(0, 500):
+  x = x+1
+  sorted_film_vote_average_list_per_page=list_of_popular_movies_by_vote_average("https://api.themoviedb.org/3/discover/movie?api_key=", "c8a0874f6d4bf6af7bf12aa19e6f6483", "&page=", str(x), sorted_film_vote_average_list_per_page)
+  sorted_film_vote_average_list.extend(sorted_film_vote_average_list_per_page)
+sorted_film_vote_average_list.sort(reverse=True)
+print(sorted_film_vote_average_list[0:5])
+print("The most popular movie, " + sorted_film_vote_average_list[0][1] + ", got a vote average of " + str(sorted_film_vote_average_list[0][0])) 
+
+
+# Output: [[10, 'The World to Come'], [10, 'The Amityville Harvest'], [10, 'Sweded Film Festival for Creative Re-Creations'], [10, 'One Punch Man'], [10, 'Dragon Ball Z Abridged']]
+The most popular movie, The World to Come, got a vote average of 10
