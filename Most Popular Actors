@@ -1,0 +1,40 @@
+#def  most_successful_actor_by_revenue(url, api_key):
+import json, requests
+  #response = requests.get(url + api_key)
+response = requests.get('https://api.themoviedb.org/3/discover/movie?api_key='+ 'c8a0874f6d4bf6af7bf12aa19e6f6483' + '&sort_by=revenue.desc')
+film_data = response.json()
+#print(film_data)
+x = film_data['results']
+#print(x)
+film_id=[]
+for y in x: 
+  film_id.append(y['id'])
+#print(film_id)
+film_and_vote_average ={}
+#film_and_vote_average.setdefault(newkey, [])
+id_each_actor =[]
+actor_name = []
+for z in film_id:
+  actor_data=[]
+  newurl = "https://api.themoviedb.org/3/movie/%s/credits?api_key=" %z
+  newkey= "c8a0874f6d4bf6af7bf12aa19e6f6483"
+  #print(newurl)
+  response1 = requests.get(newurl + newkey)
+  actor_data = response1.json()
+  #print(actor_data)
+  actor_cast= actor_data['cast']
+  for y in actor_cast:
+    #actor_name.append(y['name'])
+    #print(z, actor_name)
+    newkey = y['name']
+    print(newkey,z)
+    film_and_vote_average[newkey].append(z)
+ # title_film.append(x['title'])
+ #vote_average_for_each_film.add(x['vote_average'])
+  #print(film_and_vote_average)
+  for act in actor_name:
+    id_each_actor.append(z)
+  #print(act,id_each_actor)
+print(film_and_vote_average)
+
+# Ouput: Robert Downey Jr.
